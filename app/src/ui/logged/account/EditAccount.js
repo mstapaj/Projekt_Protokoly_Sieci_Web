@@ -19,6 +19,7 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import Visibility from "@mui/icons-material/Visibility";
 import Notification from "../Notification";
 import SnackbarComponent from "../../SnackbarComponent";
+import DialogComponent from "../../DialogComponent";
 
 const EditAccount = () => {
     const params = useParams();
@@ -223,6 +224,13 @@ const EditAccount = () => {
                     <Button onClick={() => history.goBack()}>Powrót</Button>
                 </DialogActions>
             </Dialog>
+            <DialogComponent
+                title={"Użytkownik został pomyślnie edytowany"}
+                openDialog={openDialog}
+                handleCloseDialog={handleCloseDialog}
+                firstButtonAction={() => history.goBack()}
+                firstButtonDesc={"Powrót"}
+            />
             <Notification />
         </div>
     );

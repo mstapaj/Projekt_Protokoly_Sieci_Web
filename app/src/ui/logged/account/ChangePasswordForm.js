@@ -2,16 +2,11 @@ import React, { useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import axios from "axios";
 import Box from "@mui/material/Box";
-import {
-    Button,
-    Dialog,
-    DialogActions,
-    DialogTitle,
-    Stack,
-} from "@mui/material";
+import { Button, Stack } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import Notification from "../Notification";
 import SnackbarComponent from "../../SnackbarComponent";
+import DialogComponent from "../../DialogComponent";
 
 const ChangePasswordForm = () => {
     const history = useHistory();
@@ -136,20 +131,13 @@ const ChangePasswordForm = () => {
                     open={open}
                 />
             </div>
-            <Dialog
-                position={"absolute"}
-                open={openDialog}
-                onClose={handleCloseDialog}
-                aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description"
-            >
-                <DialogTitle id="alert-dialog-title">
-                    {"Pomyślnie zmieniono hasło"}
-                </DialogTitle>
-                <DialogActions>
-                    <Button onClick={() => history.goBack()}>Powrót</Button>
-                </DialogActions>
-            </Dialog>
+            <DialogComponent
+                title={"Pomyślnie zmieniono hasło"}
+                openDialog={openDialog}
+                handleCloseDialog={handleCloseDialog}
+                firstButtonAction={() => history.goBack()}
+                firstButtonDesc={"Powrót"}
+            />
             <Notification />
         </div>
     );

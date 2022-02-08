@@ -1,20 +1,11 @@
 import { useHistory } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import {
-    Alert,
-    Button,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogContentText,
-    DialogTitle,
-    Snackbar,
-    Stack,
-} from "@mui/material";
+import { Alert, Button, Snackbar, Stack } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import Cookies from "js-cookie";
+import DialogComponent from "./DialogComponent";
 
 const RegisterPage = () => {
     const history = useHistory();
@@ -180,28 +171,16 @@ const RegisterPage = () => {
                     </Alert>
                 </Snackbar>
             </div>
-            <Dialog
-                position={"absolute"}
-                open={openDialog}
-                onClose={handleCloseDialog}
-                aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description"
-            >
-                <DialogTitle id="alert-dialog-title">
-                    {"Udało się zarejestrować"}
-                </DialogTitle>
-                <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
-                        Teraz możesz się zalogować
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={() => history.push("/")}>Powrót</Button>
-                    <Button onClick={() => history.push("/login")}>
-                        Zaloguj się
-                    </Button>
-                </DialogActions>
-            </Dialog>
+            <DialogComponent
+                title={"Udało się zarejestrować"}
+                desc={"Teraz możesz się zalogować"}
+                openDialog={openDialog}
+                handleCloseDialog={handleCloseDialog}
+                firstButtonAction={() => history.push("/")}
+                firstButtonDesc={"Powrót"}
+                secondButtonAction={() => history.push("/login")}
+                secondButtonDesc={"Zaloguj się"}
+            />
         </div>
     );
 };

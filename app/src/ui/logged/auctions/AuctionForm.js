@@ -1,17 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import axios from "axios";
-import {
-    Button,
-    Dialog,
-    DialogActions,
-    DialogTitle,
-    Stack,
-} from "@mui/material";
+import { Button, Stack } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import Notification from "../Notification";
 import SnackbarComponent from "../../SnackbarComponent";
+import DialogComponent from "../../DialogComponent";
 
 const AuctionForm = () => {
     const params = useParams();
@@ -217,22 +212,17 @@ const AuctionForm = () => {
                         open={open}
                     />
                 </Box>
-                <Dialog
-                    position={"absolute"}
-                    open={openDialog}
-                    onClose={handleCloseDialog}
-                    aria-labelledby="alert-dialog-title"
-                    aria-describedby="alert-dialog-description"
-                >
-                    <DialogTitle id="alert-dialog-title">
-                        {params.auctionId
+                <DialogComponent
+                    title={
+                        params.auctionId
                             ? "Udało się edytowac aukcje"
-                            : "Udało się dodać aukcje"}
-                    </DialogTitle>
-                    <DialogActions>
-                        <Button onClick={() => history.goBack()}>Powrót</Button>
-                    </DialogActions>
-                </Dialog>
+                            : "Udało się dodać aukcje"
+                    }
+                    openDialog={openDialog}
+                    handleCloseDialog={handleCloseDialog}
+                    firstButtonAction={() => history.goBack()}
+                    firstButtonDesc={"Powrót"}
+                />
             </div>
             <Notification />
         </div>

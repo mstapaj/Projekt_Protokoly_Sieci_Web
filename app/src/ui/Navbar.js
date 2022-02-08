@@ -1,12 +1,7 @@
-import {
-    Button,
-    Dialog,
-    DialogActions,
-    DialogTitle,
-    Stack,
-} from "@mui/material";
+import { Button, Stack } from "@mui/material";
 import { useHistory } from "react-router-dom";
 import React, { useState } from "react";
+import DialogComponent from "./DialogComponent";
 
 const Navbar = () => {
     const history = useHistory();
@@ -49,25 +44,15 @@ const Navbar = () => {
                 >
                     Dodaj przedmiot na sprzedaż
                 </Button>
-                <Dialog
-                    position={"absolute"}
-                    open={openDialog}
-                    onClose={handleCloseDialog}
-                    aria-labelledby="alert-dialog-title"
-                    aria-describedby="alert-dialog-description"
-                >
-                    <DialogTitle id="alert-dialog-title">
-                        {"Musisz się zalogować, aby móc dodać aukcję"}
-                    </DialogTitle>
-                    <DialogActions>
-                        <Button onClick={() => handleCloseDialog()}>
-                            Anuluj
-                        </Button>
-                        <Button onClick={() => history.push("/login")}>
-                            Zaloguj się
-                        </Button>
-                    </DialogActions>
-                </Dialog>
+                <DialogComponent
+                    title={"Musisz się zalogować, aby móc dodać aukcję"}
+                    openDialog={openDialog}
+                    handleCloseDialog={handleCloseDialog}
+                    firstButtonAction={() => handleCloseDialog()}
+                    firstButtonDesc={"Anuluj"}
+                    secondButtonAction={() => history.push("/login")}
+                    secondButtonDesc={"Zaloguj się"}
+                />
             </Stack>
         </div>
     );

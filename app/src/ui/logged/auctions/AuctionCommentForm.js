@@ -4,9 +4,6 @@ import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import {
     Button,
-    Dialog,
-    DialogActions,
-    DialogTitle,
     FormControl,
     InputLabel,
     MenuItem,
@@ -16,6 +13,7 @@ import {
 import TextField from "@mui/material/TextField";
 import Notification from "../Notification";
 import SnackbarComponent from "../../SnackbarComponent";
+import DialogComponent from "../../DialogComponent";
 
 const AuctionCommentForm = () => {
     const params = useParams();
@@ -206,22 +204,17 @@ const AuctionCommentForm = () => {
                         open={open}
                     />
                 </Box>
-                <Dialog
-                    position={"absolute"}
-                    open={openDialog}
-                    onClose={handleCloseDialog}
-                    aria-labelledby="alert-dialog-title"
-                    aria-describedby="alert-dialog-description"
-                >
-                    <DialogTitle id="alert-dialog-title">
-                        {params.auctionCommentId
+                <DialogComponent
+                    title={
+                        params.auctionCommentId
                             ? "Udało się edytowac komentarz"
-                            : "Udało się dodać komentarz"}
-                    </DialogTitle>
-                    <DialogActions>
-                        <Button onClick={() => history.goBack()}>Powrót</Button>
-                    </DialogActions>
-                </Dialog>
+                            : "Udało się dodać komentarz"
+                    }
+                    openDialog={openDialog}
+                    handleCloseDialog={handleCloseDialog}
+                    firstButtonAction={() => history.goBack()}
+                    firstButtonDesc={"Powrót"}
+                />
             </div>
             <Notification />
         </div>

@@ -2,17 +2,12 @@ import React, { useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";
-import {
-    Button,
-    Dialog,
-    DialogActions,
-    DialogTitle,
-    Stack,
-} from "@mui/material";
+import { Button, Stack } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import Notification from "../Notification";
 import SnackbarComponent from "../../SnackbarComponent";
+import DialogComponent from "../../DialogComponent";
 
 const DeleteAccount = () => {
     const params = useParams();
@@ -115,21 +110,15 @@ const DeleteAccount = () => {
                     open={open}
                 />
             </div>
-            <Dialog
-                position={"absolute"}
-                open={openDialog}
-                onClose={handleCloseDialog}
-                aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description"
-            >
-                <DialogTitle id="alert-dialog-title">
-                    {"Czy na pewno chcesz usunąć swoje konto?"}
-                </DialogTitle>
-                <DialogActions>
-                    <Button onClick={() => history.goBack()}>Anuluj</Button>
-                    <Button onClick={() => handleDelete()}>Usuń konto</Button>
-                </DialogActions>
-            </Dialog>
+            <DialogComponent
+                title={"Czy na pewno chcesz usunąć swoje konto?"}
+                openDialog={openDialog}
+                handleCloseDialog={handleCloseDialog}
+                firstButtonAction={() => history.goBack()}
+                firstButtonDesc={"Anuluj"}
+                secondButtonAction={() => handleDelete()}
+                secondButtonDesc={"Usuń konto"}
+            />
             <Notification />
         </div>
     );

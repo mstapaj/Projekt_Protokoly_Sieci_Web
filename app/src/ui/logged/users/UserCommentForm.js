@@ -16,6 +16,7 @@ import {
 import TextField from "@mui/material/TextField";
 import Notification from "../Notification";
 import SnackbarComponent from "../../SnackbarComponent";
+import DialogComponent from "../../DialogComponent";
 
 const UserCommentForm = () => {
     const params = useParams();
@@ -222,6 +223,17 @@ const UserCommentForm = () => {
                         <Button onClick={() => history.goBack()}>Powrót</Button>
                     </DialogActions>
                 </Dialog>
+                <DialogComponent
+                    title={
+                        params.userCommentId
+                            ? "Udało się edytowac komentarz"
+                            : "Udało się dodać komentarz"
+                    }
+                    openDialog={openDialog}
+                    handleCloseDialog={handleCloseDialog}
+                    firstButtonAction={() => history.goBack()}
+                    firstButtonDesc={"Powrót"}
+                />
             </div>
             <Notification />
         </div>
