@@ -1,0 +1,372 @@
+body {
+    height: 100vh;
+    margin: 0;
+}
+
+body div .App {
+    height: 100vh;
+}
+
+body div .App .auction-details {
+    background-color: #275dd1;
+    height: 100%;
+}
+
+body div .App .auction-details .navbar {
+    height: 40px;
+}
+
+body div .App .auction-details .navbar button {
+    background-color: whitesmoke;
+}
+
+body div .App .auction-details h3 {
+    color: white;
+    text-align: center;
+    margin: 0;
+    padding: 10px;
+}
+
+body div .App .auction-details .details {
+    background-color: white;
+    height: auto;
+    margin: auto;
+    width: 600px;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+body div .App .auction-details .details .user-auctions {
+    border: 2px lightgray solid;
+    border-radius: 5px;
+    overflow-y: auto;
+    max-height: 13vh;
+}
+
+body div .App .auction-details .details .user-auctions div {
+    margin: 8px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
+
+body div .App .auction-details .details .user-auctions div div {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    border-radius: 5px;
+    -webkit-box-flex: 100%;
+    -ms-flex: 100%;
+    flex: 100%;
+    margin: 0;
+    padding: 0 10px;
+}
+
+body div .App .auction-details .details .user-auctions div div:hover {
+    cursor: pointer;
+    background-color: lightgray;
+    -webkit-transition: 0.3s ease all;
+    transition: 0.3s ease all;
+}
+
+body div .App .auction-details .clickable:hover {
+    cursor: pointer;
+}
+
+body div .App .auction-details .comments .comments-list {
+    overflow-y: auto;
+    max-height: 48vh;
+}
+
+body div .App .auction-details .comments .comments-list div {
+    border: 2px lightgray solid;
+    border-radius: 5px;
+    margin: 5px;
+}
+
+body div .App .auction-details .comments .comments-list div div {
+    border: none;
+}
+
+body div .App .auction-details .comments .comments-list div .likes {
+    height: 40px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    border: none;
+    margin-left: 10px;
+}
+
+body div .App .auction-details .comments .comments-list div .likes p {
+    margin-right: 10px;
+}
+
+body div .App .auction-list {
+    background-color: #275dd1;
+    height: 100%;
+}
+
+body div .App .auction-list h3 {
+    color: white;
+    text-align: center;
+    margin: 0;
+    padding: 10px;
+}
+
+body div .App .auction-list .navbar {
+    height: 40px;
+}
+
+body div .App .auction-list .navbar button {
+    background-color: whitesmoke;
+}
+
+body div .App .auction-list .buttons button {
+    background-color: white;
+}
+
+body div .App .auction-list .search-bar {
+    margin: 0 10px;
+}
+
+body div .App .auction-list .search-bar div {
+    height: 40px;
+}
+
+body div .App .auction-list .search-bar div div div {
+    background-color: white;
+}
+
+body div .App .auction-list .search-bar div button {
+    background-color: white;
+}
+
+body div .App .auction-list .chat {
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin-top: 10px;
+    padding: 0;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    display: -ms-grid;
+    display: grid;
+    overflow-y: auto;
+    max-height: 78vh;
+}
+
+body div .App .auction-list .chat .messages {
+    overflow-y: auto;
+    max-height: 65vh;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    width: 600px;
+    background-color: white;
+    margin: 10px;
+    border-radius: 5px;
+}
+
+body div .App .auction-list .chat .messages div {
+    -webkit-box-flex: 100%;
+    -ms-flex: 100%;
+    flex: 100%;
+}
+
+body div .App .auction-list .chat .messages div p:first-of-type {
+    font-size: 12px;
+}
+
+body div .App .auction-list .chat .messages div p {
+    overflow-wrap: break-word;
+    max-width: 500px;
+    font-size: 16px;
+    margin: 10px;
+}
+
+body div .App .auction-list .chat .mess {
+    width: 600px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    justify-self: center;
+}
+
+body div .App .auction-list .chat .mess div {
+    background-color: white;
+    margin-right: 10px;
+}
+
+body div .App .auction-list .chat .mess button {
+    background-color: white;
+}
+
+body div .App .auction-list .items {
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin-top: 10px;
+    padding: 0;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    display: -ms-grid;
+    display: grid;
+    overflow-y: auto;
+    max-height: 78vh;
+}
+
+body div .App .auction-list .items div {
+    width: 600px;
+    background-color: white;
+    margin: 10px;
+    border-radius: 5px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
+
+body div .App .auction-list .items div p {
+    font-size: 20px;
+    margin: 10px;
+}
+
+body div .App .auction-list .items div button {
+    margin-right: 4px;
+}
+
+body div .App .auction-list .items div .chatroom {
+    width: 77%;
+    margin: 0;
+    padding: 10px;
+}
+
+body div .App .auction-list .items div .buttons {
+    -webkit-box-flex: 100%;
+    -ms-flex: 100%;
+    flex: 100%;
+}
+
+body div .App .auction-list .items div .buttons button {
+    margin-right: 8px;
+}
+
+body div .App .auction-list .items .space-bet {
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+}
+
+body div .App .auction-list .items div:hover {
+    cursor: pointer;
+    -webkit-transition: 0.3s ease all;
+    transition: 0.3s ease all;
+    background-color: #b8c7f8;
+}
+
+body div .App .auction-list .items div:hover div {
+    cursor: pointer;
+    -webkit-transition: 0.3s ease all;
+    transition: 0.3s ease all;
+    background-color: #b8c7f8;
+}
+
+body div .App .main {
+    height: 100%;
+    background-color: #275dd1;
+}
+
+body div .App .main h3 {
+    color: white;
+    text-align: center;
+    margin: 0;
+    padding: 10px;
+}
+
+body div .App .main .navbar {
+    height: 40px;
+}
+
+body div .App .main .navbar button {
+    background-color: whitesmoke;
+}
+
+body div .App .login {
+    height: 100%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    background-color: #275dd1;
+}
+
+body div .App .login .form {
+    height: auto;
+    width: auto;
+    background-color: white;
+    border-radius: 8px;
+}
+
+body div .App .login .form h3 {
+    margin: 10px;
+    text-align: center;
+}
+
+body div .App .login .form form {
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    margin: 0;
+    padding: 10px;
+}
+
+body div .App .login .form p {
+    text-align: center;
+    margin: 5px 10px;
+}
+
+body div .App .login .form .delete-acc {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+}
+
+/*# sourceMappingURL=App.css.map */

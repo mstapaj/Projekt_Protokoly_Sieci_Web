@@ -1,0 +1,296 @@
+@mixin h3style {
+    h3 {
+        color: white;
+        text-align: center;
+        margin: 0;
+        padding: 10px;
+    }
+}
+
+@mixin navbarstyle {
+    .navbar {
+        height: 40px;
+
+        button {
+            background-color: whitesmoke;
+        }
+    }
+}
+
+.clickable:hover {
+    cursor: pointer;
+}
+
+body {
+    height: 100vh;
+    margin: 0;
+
+    div {
+        .App {
+            height: 100vh;
+
+            .auction-details {
+                background-color: rgb(39, 93, 209);
+                height: 100%;
+                @include navbarstyle();
+                @include h3style();
+
+                .details {
+                    background-color: white;
+                    height: auto;
+                    margin: auto;
+                    width: 600px;
+                    border-radius: 5px;
+                    padding: 10px;
+
+                    .user-auctions {
+                        border: 2px lightgray solid;
+                        border-radius: 5px;
+                        overflow-y: auto;
+                        max-height: 13vh;
+
+                        div {
+                            margin: 8px;
+                            display: flex;
+                            flex-wrap: wrap;
+
+                            div {
+                                display: flex;
+                                justify-content: space-between;
+                                align-items: center;
+                                border-radius: 5px;
+                                flex: 100%;
+                                margin: 0;
+                                padding: 0 10px;
+                            }
+
+                            div:hover {
+                                cursor: pointer;
+                                background-color: lightgray;
+                                transition: 0.3s ease all;
+                            }
+                        }
+                    }
+                }
+
+                .comments {
+                    .comments-list {
+                        overflow-y: auto;
+                        max-height: 48vh;
+
+                        div {
+                            border: 2px lightgray solid;
+                            border-radius: 5px;
+                            margin: 5px;
+
+                            div {
+                                border: none;
+                            }
+
+                            .likes {
+                                height: 40px;
+                                display: flex;
+                                align-items: center;
+                                border: none;
+                                margin-left: 10px;
+
+                                p {
+                                    margin-right: 10px;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            .auction-list {
+                background-color: rgb(39, 93, 209);
+                height: 100%;
+                @include h3style();
+                @include navbarstyle();
+
+                .buttons {
+                    button {
+                        background-color: white;
+                    }
+                }
+
+                .search-bar {
+                    margin: 0 10px;
+
+                    div {
+                        height: 40px;
+
+                        div {
+                            div {
+                                background-color: white;
+                            }
+                        }
+
+                        button {
+                            background-color: white;
+                        }
+                    }
+                }
+
+                .chat {
+                    flex-wrap: wrap;
+                    margin-top: 10px;
+                    padding: 0;
+                    display: flex;
+                    justify-content: center;
+                    display: grid;
+                    overflow-y: auto;
+                    max-height: 78vh;
+
+                    .messages {
+                        overflow-y: auto;
+                        max-height: 65vh;
+                        display: flex;
+                        flex-wrap: wrap;
+                        align-items: center;
+                        width: 600px;
+                        background-color: white;
+                        margin: 10px;
+                        border-radius: 5px;
+
+                        div {
+                            flex: 100%;
+
+                            p:first-of-type {
+                                font-size: 12px;
+                            }
+
+                            p {
+                                overflow-wrap: break-word;
+                                max-width: 500px;
+                                font-size: 16px;
+                                margin: 10px;
+                            }
+                        }
+                    }
+
+                    .mess {
+                        width: 600px;
+                        display: flex;
+                        justify-content: space-between;
+                        justify-self: center;
+
+                        div {
+                            background-color: white;
+                            margin-right: 10px;
+                        }
+
+                        button {
+                            background-color: white;
+                        }
+                    }
+                }
+
+                .items {
+                    flex-wrap: wrap;
+                    margin-top: 10px;
+                    padding: 0;
+                    display: flex;
+                    justify-content: center;
+                    display: grid;
+                    overflow-y: auto;
+                    max-height: 78vh;
+
+                    div {
+                        width: 600px;
+                        background-color: white;
+                        margin: 10px;
+                        border-radius: 5px;
+                        display: flex;
+                        align-items: center;
+                        flex-wrap: wrap;
+
+                        p {
+                            font-size: 20px;
+                            margin: 10px;
+                        }
+
+                        button {
+                            margin-right: 4px;
+                        }
+
+                        .chatroom {
+                            width: 77%;
+                            margin: 0;
+                            padding: 10px;
+                        }
+
+                        .buttons {
+                            flex: 100%;
+
+                            button {
+                                margin-right: 8px;
+                            }
+                        }
+                    }
+
+                    .space-bet {
+                        justify-content: space-between;
+                    }
+
+                    div:hover {
+                        cursor: pointer;
+                        transition: 0.3s ease all;
+                        background-color: rgb(184, 199, 248);
+
+                        div {
+                            cursor: pointer;
+                            transition: 0.3s ease all;
+                            background-color: rgb(184, 199, 248);
+                        }
+                    }
+                }
+            }
+
+            .main {
+                height: 100%;
+                background-color: rgb(39, 93, 209);
+                @include h3style();
+                @include navbarstyle();
+            }
+
+            .login {
+                height: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-wrap: wrap;
+                background-color: rgb(39, 93, 209);
+
+                .form {
+                    height: auto;
+                    width: auto;
+                    background-color: white;
+                    border-radius: 8px;
+
+                    h3 {
+                        margin: 10px;
+                        text-align: center;
+                    }
+
+                    form {
+                        box-shadow: none;
+                        margin: 0;
+                        padding: 10px;
+                    }
+
+                    p {
+                        text-align: center;
+                        margin: 5px 10px;
+                    }
+
+                    .delete-acc {
+                        display: flex;
+                        justify-content: center;
+                    }
+                }
+            }
+        }
+    }
+}

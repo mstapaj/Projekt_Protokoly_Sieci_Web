@@ -1,0 +1,16 @@
+{
+  "name": "serwer",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "crypto-js": "^4.1.1",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.2",
+    "fs": "^0.0.1-security",
+    "mongoose": "^6.1.4",
+    "mqtt": "^4.3.4",
+    "prettier": "^2.5.1"
+  }
+}
