@@ -1,10 +1,11 @@
-import React, {useEffect, useState} from "react";
-import {useHistory, useParams} from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useHistory, useParams } from "react-router-dom";
 import axios from "axios";
 import SearchBar from "../../SearchBar";
 import NavbarLogged from "../NavbarLogged";
-import {Alert, Button, Snackbar, Stack} from "@mui/material";
+import { Button, Stack } from "@mui/material";
 import Notification from "../Notification";
+import SnackbarComponent from "../../SnackbarComponent";
 
 const AllAuctions = () => {
     const [auctions, setAuctions] = useState([]);
@@ -41,50 +42,62 @@ const AllAuctions = () => {
         getAllAuctions();
     }, []);
 
-    return (<div className={"auction-list"}>
-        <h3>Lista aukcji</h3>
-        <NavbarLogged/>
-        <div className={"buttons"}>
-            <Stack direction={"row"} spacing={"4px"} justifyContent={"center"}>
-                <Button variant={"outlined"} onClick={() => getAllAuctions()}>Odśwież aukcje</Button>
-                <Button variant={"outlined"} onClick={() => history.goBack()}>
-                    Powrót
-                </Button>
-            </Stack>
-        </div>
-        <SearchBar
-            setAuctions={setAuctions}
-            cancelSearch={getAllAuctions}
-            setAlertMessage={setAlertMessage}
-            handleClick={handleClick}
-        />
-        <div className={"items"}>
+    return (
+        <div className={"auction-list"}>
+            <h3>Lista aukcji</h3>
+            <NavbarLogged />
+            <div className={"buttons"}>
+                <Stack
+                    direction={"row"}
+                    spacing={"4px"}
+                    justifyContent={"center"}
+                >
+                    <Button
+                        variant={"outlined"}
+                        onClick={() => getAllAuctions()}
+                    >
+                        Odśwież aukcje
+                    </Button>
+                    <Button
+                        variant={"outlined"}
+                        onClick={() => history.goBack()}
+                    >
+                        Powrót
+                    </Button>
+                </Stack>
+            </div>
+            <SearchBar
+                setAuctions={setAuctions}
+                cancelSearch={getAllAuctions}
+                setAlertMessage={setAlertMessage}
+                handleClick={handleClick}
+            />
+            <div className={"items"}>
+                {auctions.map((n) => (
+                    <div
+                        key={n._id}
+                        className={"space-bet"}
+                        onClick={() =>
+                            history.push(
+                                `/logged/${params.id}/auction/${n._id}`
+                            )
+                        }
+                    >
+                        <p>{n.name}</p>
+                        <p>Cena: {n.price}</p>
+                    </div>
+                ))}
+            </div>
+            <SnackbarComponent
+                alertMessage={alertMessage}
+                errorType={"warning"}
+                handleClose={handleClose}
+                open={open}
+            />
 
-            {auctions.map((n) => (
-                <div key={n._id} className={'space-bet'} onClick={() => history.push(`/logged/${params.id}/auction/${n._id}`)}>
-                    <p>
-                        {n.name}
-                    </p>
-                    <p>
-                        Cena: {n.price}
-                    </p>
-                </div>))}
+            <Notification />
         </div>
-        <Snackbar
-            open={open}
-            autoHideDuration={6000}
-            onClose={handleClose}
-        >
-            <Alert
-                onClose={handleClose}
-                severity="warning"
-                sx={{width: "100%"}}
-            >
-                {alertMessage}
-            </Alert>
-        </Snackbar>
-        <Notification />
-    </div>);
+    );
 };
 
 export default AllAuctions;

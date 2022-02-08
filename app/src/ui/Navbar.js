@@ -1,11 +1,15 @@
-import {Button, Dialog, DialogActions, DialogTitle, Stack} from "@mui/material";
-import {useHistory} from "react-router-dom";
-import React, {useState} from "react";
-
+import {
+    Button,
+    Dialog,
+    DialogActions,
+    DialogTitle,
+    Stack,
+} from "@mui/material";
+import { useHistory } from "react-router-dom";
+import React, { useState } from "react";
 
 const Navbar = () => {
-
-    const history = useHistory()
+    const history = useHistory();
     const [openDialog, setOpenDialog] = useState(false);
     const handleCloseDialog = () => {
         setOpenDialog(false);
@@ -16,25 +20,37 @@ const Navbar = () => {
 
     return (
         <div className={"navbar"}>
-            <Stack direction={'row'} spacing={'4px'} justifyContent={'center'}>
-                <Button background={'white'} variant="outlined" backgroundColor={"white"}
-                        onClick={() => history.push("/login")}>Zaloguj
-                    się</Button>
-                <Button variant="outlined" onClick={() => history.push("/register")}>
+            <Stack direction={"row"} spacing={"4px"} justifyContent={"center"}>
+                <Button
+                    background={"white"}
+                    variant="outlined"
+                    backgroundColor={"white"}
+                    onClick={() => history.push("/login")}
+                >
+                    Zaloguj się
+                </Button>
+                <Button
+                    variant="outlined"
+                    onClick={() => history.push("/register")}
+                >
                     Zarejstruj się
                 </Button>
-                <Button variant="outlined" onClick={() => history.push("/auctions")}>
+                <Button
+                    variant="outlined"
+                    onClick={() => history.push("/auctions")}
+                >
                     Lista aukcji
                 </Button>
-                <Button variant="outlined"
-                        onClick={() => {
-                            handleClickOpen()
-                        }}
+                <Button
+                    variant="outlined"
+                    onClick={() => {
+                        handleClickOpen();
+                    }}
                 >
                     Dodaj przedmiot na sprzedaż
                 </Button>
                 <Dialog
-                    position={'absolute'}
+                    position={"absolute"}
                     open={openDialog}
                     onClose={handleCloseDialog}
                     aria-labelledby="alert-dialog-title"
@@ -44,8 +60,12 @@ const Navbar = () => {
                         {"Musisz się zalogować, aby móc dodać aukcję"}
                     </DialogTitle>
                     <DialogActions>
-                        <Button onClick={() => handleCloseDialog()}>Anuluj</Button>
-                        <Button onClick={() => history.push("/login")}>Zaloguj się</Button>
+                        <Button onClick={() => handleCloseDialog()}>
+                            Anuluj
+                        </Button>
+                        <Button onClick={() => history.push("/login")}>
+                            Zaloguj się
+                        </Button>
                     </DialogActions>
                 </Dialog>
             </Stack>

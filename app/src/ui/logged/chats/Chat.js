@@ -1,13 +1,12 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import * as mqtt from "mqtt";
-import {useHistory, useParams} from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import axios from "axios";
 import NavbarLogged from "../NavbarLogged";
-import {Alert, Button, Snackbar, Stack, TextField} from "@mui/material";
+import { Alert, Button, Snackbar, Stack, TextField } from "@mui/material";
 import Notification from "../Notification";
 
 const Chat = () => {
-
     const [client, setClient] = useState(null);
     const [messages, setMessages] = useState([]);
     const [login, setLogin] = useState("");
@@ -34,7 +33,8 @@ const Chat = () => {
     };
     useEffect(() => {
         mqttConnect("mqtt://127.0.0.1:1884", {
-            connectTimeout: 5000, path: "/mqtt"
+            connectTimeout: 5000,
+            path: "/mqtt",
         });
         setTimeout(() => {
             updateScroll();
@@ -43,24 +43,34 @@ const Chat = () => {
     useEffect(() => {
         if (client) {
             client.on("connect", () => {
-                axios.get(`https://localhost:5000/users/${params.id}`).then(res => {
-                    const dateTime = new Date();
-                    setLogin(res.data.login);
-                    client.publish(params.chat, `${dateTime.toLocaleString()} Użytkownik ${res.data.login} dołączył do czatu`);
-                    client.subscribe(params.chat);
-                    client.subscribe("~" + params.chat);
-                });
+                axios
+                    .get(`https://localhost:5000/users/${params.id}`)
+                    .then((res) => {
+                        const dateTime = new Date();
+                        setLogin(res.data.login);
+                        client.publish(
+                            params.chat,
+                            `${dateTime.toLocaleString()} Użytkownik ${
+                                res.data.login
+                            } dołączył do czatu`
+                        );
+                        client.subscribe(params.chat);
+                        client.subscribe("~" + params.chat);
+                    });
             });
             client.on("error", (err) => {
                 console.error("Connection error: ", err);
                 client.end();
             });
             client.on("message", (topic, message) => {
-                const payload = {topic, message: message.toString()};
+                const payload = { topic, message: message.toString() };
                 if (payload.topic[0] === "~") {
-                    const allMessages = payload.message.split("~").filter(n => n !== "").reduce((acc, curr) => {
-                        return [...acc, curr];
-                    }, []);
+                    const allMessages = payload.message
+                        .split("~")
+                        .filter((n) => n !== "")
+                        .reduce((acc, curr) => {
+                            return [...acc, curr];
+                        }, []);
                     setMessages(allMessages);
                     client.unsubscribe("~" + params.chat);
                 } else {
@@ -88,7 +98,10 @@ const Chat = () => {
             handleClick();
         } else {
             const dateTime = new Date();
-            client.publish(params.chat, `${dateTime.toLocaleString()} ${login}: ${newMess}`);
+            client.publish(
+                params.chat,
+                `${dateTime.toLocaleString()} ${login}: ${newMess}`
+            );
         }
     };
 
@@ -97,58 +110,77 @@ const Chat = () => {
         element.scrollTop = element.scrollHeight;
     }
 
-    return (<div className={"auction-list"}>
-        <h3>Pokój: {params.chat}</h3>
-        <NavbarLogged/>
-        <div className={"buttons"}>
-            <Stack direction={"row"} spacing={"4px"} justifyContent={"center"}>
-                <Button variant={"outlined"} onClick={() => {
-                    const dateTime = new Date();
-                    client.publish(params.chat, `${dateTime.toLocaleString()} Użytkownik ${login} opuścił czat`);
-                    history.goBack();
-                }}>
-                    Powrót
-                </Button>
-            </Stack>
-        </div>
-        <div className={"chat"}>
-            <div className={"messages"} id={"messages"}>
-                {messages.length > 0 && messages.map(n => <div key={n}>
-                    <p>{n.slice(0, 20)}</p>
-                    <p>{n.slice(20)}</p>
-                </div>)}
+    return (
+        <div className={"auction-list"}>
+            <h3>Pokój: {params.chat}</h3>
+            <NavbarLogged />
+            <div className={"buttons"}>
+                <Stack
+                    direction={"row"}
+                    spacing={"4px"}
+                    justifyContent={"center"}
+                >
+                    <Button
+                        variant={"outlined"}
+                        onClick={() => {
+                            const dateTime = new Date();
+                            client.publish(
+                                params.chat,
+                                `${dateTime.toLocaleString()} Użytkownik ${login} opuścił czat`
+                            );
+                            history.goBack();
+                        }}
+                    >
+                        Powrót
+                    </Button>
+                </Stack>
             </div>
-            <div className={"mess"}>
-                <TextField id={"outlined"} onChange={(event => setNewMess(event.target.value))}
-                           fullWidth
-                           placeholder={"Wpisz wiadomość"}
-                />
-                {(messages[messages.length - 1] !== "Pokój ten został zamknięty") &&
-                    <Button variant={"outlined"} onClick={() => {
-                        handleSend();
-                        setTimeout(() => {
-                            updateScroll();
-                        }, 200);
-                        document.getElementById("outlined").value = "";
-                    }}>Wyślij
-                    </Button>}
+            <div className={"chat"}>
+                <div className={"messages"} id={"messages"}>
+                    {messages.length > 0 &&
+                        messages.map((n) => (
+                            <div key={n}>
+                                <p>{n.slice(0, 20)}</p>
+                                <p>{n.slice(20)}</p>
+                            </div>
+                        ))}
+                </div>
+                <div className={"mess"}>
+                    <TextField
+                        id={"outlined"}
+                        onChange={(event) => setNewMess(event.target.value)}
+                        fullWidth
+                        placeholder={"Wpisz wiadomość"}
+                    />
+                    {messages[messages.length - 1] !==
+                        "Pokój ten został zamknięty" && (
+                        <Button
+                            variant={"outlined"}
+                            onClick={() => {
+                                handleSend();
+                                setTimeout(() => {
+                                    updateScroll();
+                                }, 200);
+                                document.getElementById("outlined").value = "";
+                            }}
+                        >
+                            Wyślij
+                        </Button>
+                    )}
+                </div>
             </div>
+            <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+                <Alert
+                    onClose={handleClose}
+                    severity="warning"
+                    sx={{ width: "100%" }}
+                >
+                    {alertMessage}
+                </Alert>
+            </Snackbar>
+            <Notification />
         </div>
-        <Snackbar
-            open={open}
-            autoHideDuration={6000}
-            onClose={handleClose}
-        >
-            <Alert
-                onClose={handleClose}
-                severity="warning"
-                sx={{width: "100%"}}
-            >
-                {alertMessage}
-            </Alert>
-        </Snackbar>
-        <Notification />
-    </div>);
+    );
 };
 
 export default Chat;

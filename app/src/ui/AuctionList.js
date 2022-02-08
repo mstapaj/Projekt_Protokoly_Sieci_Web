@@ -1,9 +1,10 @@
 import axios from "axios";
-import React, {useEffect, useState} from "react";
-import {useHistory} from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import SearchBar from "./SearchBar";
 import Navbar from "./Navbar";
-import {Alert, Button, Snackbar, Stack} from "@mui/material";
+import { Button, Stack } from "@mui/material";
+import SnackbarComponent from "./SnackbarComponent";
 
 const AuctionList = () => {
     const [auctions, setAuctions] = useState([]);
@@ -31,7 +32,7 @@ const AuctionList = () => {
                 setAuctions(res.data);
             } else {
                 setAlertMessage("Błąd ładowania danych");
-                handleClick()
+                handleClick();
             }
         });
     };
@@ -43,11 +44,23 @@ const AuctionList = () => {
     return (
         <div className={"auction-list"}>
             <h3>Lista aukcji</h3>
-            <Navbar/>
+            <Navbar />
             <div className={"buttons"}>
-                <Stack direction={"row"} spacing={"4px"} justifyContent={"center"}>
-                    <Button variant={"outlined"} onClick={() => getAllAuctions()}>Odśwież aukcje</Button>
-                    <Button variant={"outlined"} onClick={() => history.push("/")}>
+                <Stack
+                    direction={"row"}
+                    spacing={"4px"}
+                    justifyContent={"center"}
+                >
+                    <Button
+                        variant={"outlined"}
+                        onClick={() => getAllAuctions()}
+                    >
+                        Odśwież aukcje
+                    </Button>
+                    <Button
+                        variant={"outlined"}
+                        onClick={() => history.push("/")}
+                    >
                         Powrót na strone główną
                     </Button>
                 </Stack>
@@ -59,31 +72,23 @@ const AuctionList = () => {
                 handleClick={handleClick}
             />
             <div className={"items"}>
-
                 {auctions.map((n) => (
-                    <div className={'space-bet'} key={n._id} onClick={() => history.push(`/auctions/${n._id}`)}>
-                        <p>
-                            {n.name}
-                        </p>
-                        <p>
-                            Cena: {n.price}
-                        </p>
+                    <div
+                        className={"space-bet"}
+                        key={n._id}
+                        onClick={() => history.push(`/auctions/${n._id}`)}
+                    >
+                        <p>{n.name}</p>
+                        <p>Cena: {n.price}</p>
                     </div>
                 ))}
             </div>
-            <Snackbar
+            <SnackbarComponent
+                alertMessage={alertMessage}
+                errorType={"warning"}
+                handleClose={handleClose}
                 open={open}
-                autoHideDuration={6000}
-                onClose={handleClose}
-            >
-                <Alert
-                    onClose={handleClose}
-                    severity="warning"
-                    sx={{width: "100%"}}
-                >
-                    {alertMessage}
-                </Alert>
-            </Snackbar>
+            />
         </div>
     );
 };

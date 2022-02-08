@@ -1,13 +1,19 @@
-import React, {useEffect, useState} from "react";
-import {useHistory, useParams} from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useHistory, useParams } from "react-router-dom";
 import axios from "axios";
-import {Alert, Button, Dialog, DialogActions, DialogTitle, Snackbar, Stack} from "@mui/material";
+import {
+    Button,
+    Dialog,
+    DialogActions,
+    DialogTitle,
+    Stack,
+} from "@mui/material";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import Notification from "../Notification";
+import SnackbarComponent from "../../SnackbarComponent";
 
 const AuctionForm = () => {
-
     const params = useParams();
     const history = useHistory();
     const [title, setTitle] = useState("");
@@ -40,95 +46,109 @@ const AuctionForm = () => {
         description: "",
         price: "",
         amount: "",
-        user: params.id
+        user: params.id,
     });
 
-
     const handleSubmit = () => {
-        let errors = ''
+        let errors = "";
         if (title.length === 0) {
-            errors = errors + 'Nazwa jest wymagana. '
+            errors = errors + "Nazwa jest wymagana. ";
         } else if (title.length < 3) {
-            errors = errors + "Nazwa musi mieć przynajmniej 3 znaki. "
+            errors = errors + "Nazwa musi mieć przynajmniej 3 znaki. ";
         } else if (title.length > 50) {
-            errors = errors + "Nazwa może mieć maksymalnie 50 znaków. "
+            errors = errors + "Nazwa może mieć maksymalnie 50 znaków. ";
         }
         if (description.length === 0) {
-            errors = errors + 'Opis jest wymagany. '
+            errors = errors + "Opis jest wymagany. ";
         } else if (description.length > 500) {
-            errors = errors + "Opis może mieć maksymalnie 500 znaków. "
+            errors = errors + "Opis może mieć maksymalnie 500 znaków. ";
         }
-        if (price === '') {
-            errors = errors + 'Cena jest wymagana. '
+        if (price === "") {
+            errors = errors + "Cena jest wymagana. ";
         } else if (isNaN(parseInt(price))) {
-            errors = errors + 'Cena musi być liczbą. '
+            errors = errors + "Cena musi być liczbą. ";
         } else if (price < 0) {
-            errors = errors + "Cena musi wynosić przynajmniej 0. "
+            errors = errors + "Cena musi wynosić przynajmniej 0. ";
         }
-        if (amount === '') {
-            errors = errors + 'Ilość jest wymagana. '
+        if (amount === "") {
+            errors = errors + "Ilość jest wymagana. ";
         } else if (isNaN(parseInt(amount))) {
-            errors = errors + 'Ilość musi być liczbą. '
+            errors = errors + "Ilość musi być liczbą. ";
         } else if (amount < 1) {
-            errors = errors + "Ilość musi wynosić przynajmniej 1. "
+            errors = errors + "Ilość musi wynosić przynajmniej 1. ";
         }
-        if (errors === '') {
+        if (errors === "") {
             const preparedData = {
                 ...init,
                 name: title,
                 description: description,
                 price: price,
-                amount: amount
-            }
+                amount: amount,
+            };
             if (params.auctionId) {
-                axios.put("https://localhost:5000/auctions/editAuction", preparedData).then((res) => {
-                    if (res.status === 200) {
-                        handleClickOpen()
-                    } else {
-                        setAlertMessage("Nie udało się edytować aukcji")
-                        handleClick()
-                    }
-                });
+                axios
+                    .put(
+                        "https://localhost:5000/auctions/editAuction",
+                        preparedData
+                    )
+                    .then((res) => {
+                        if (res.status === 200) {
+                            handleClickOpen();
+                        } else {
+                            setAlertMessage("Nie udało się edytować aukcji");
+                            handleClick();
+                        }
+                    });
             } else {
-                axios.post("https://localhost:5000/auctions/addAuction", preparedData).then((res) => {
-                    if (res.status === 200) {
-                        handleClickOpen()
-                    } else {
-                        setAlertMessage("Nie udało się dodać aukcji")
-                        handleClick()
-                    }
-                });
+                axios
+                    .post(
+                        "https://localhost:5000/auctions/addAuction",
+                        preparedData
+                    )
+                    .then((res) => {
+                        if (res.status === 200) {
+                            handleClickOpen();
+                        } else {
+                            setAlertMessage("Nie udało się dodać aukcji");
+                            handleClick();
+                        }
+                    });
             }
         } else {
-            setAlertMessage(errors)
-            handleClick()
+            setAlertMessage(errors);
+            handleClick();
         }
     };
 
     useEffect(() => {
         if (params.auctionId) {
-            axios.get(`https://localhost:5000/auctions/${params.auctionId}`).then((res) => {
-                if (res.status === 200) {
-                    setInit(res.data);
-                    setTitle(res.data.name);
-                    setAmount(res.data.amount);
-                    setPrice(res.data.price);
-                    setDescription(res.data.description);
-                } else {
-                }
-            });
+            axios
+                .get(`https://localhost:5000/auctions/${params.auctionId}`)
+                .then((res) => {
+                    if (res.status === 200) {
+                        setInit(res.data);
+                        setTitle(res.data.name);
+                        setAmount(res.data.amount);
+                        setPrice(res.data.price);
+                        setDescription(res.data.description);
+                    } else {
+                    }
+                });
         }
     }, []);
-
 
     return (
         <div className={"login"}>
             <div className={"form"}>
-                {(params.auctionId) ? <h3>Edytuj aukcje</h3> : <h3>Dodaj aukcje</h3>}
+                {params.auctionId ? (
+                    <h3>Edytuj aukcje</h3>
+                ) : (
+                    <h3>Dodaj aukcje</h3>
+                )}
                 <Box
                     component="form"
                     sx={{
-                        "& .MuiTextField-root": {m: 1, width: "25ch"}
+                        "& .MuiTextField-root": { m: 1, width: "25ch" },
                     }}
                     noValidate
                     autoComplete="off"
@@ -145,7 +165,9 @@ const AuctionForm = () => {
                             id="outlined"
                             label="Opis"
                             value={description}
-                            onChange={(event) => setDescription(event.target.value)}
+                            onChange={(event) =>
+                                setDescription(event.target.value)
+                            }
                         />
                         <TextField
                             id="outlined"
@@ -166,24 +188,34 @@ const AuctionForm = () => {
                         justifyContent={"center"}
                         marginTop={"10px"}
                     >
-                        <Button variant={"text"} onClick={() => history.goBack()}>Powrót</Button>
-                        {(params.auctionId) ?
-                            <Button variant={"outlined"} onClick={() => handleSubmit()}>Edytuj aukcje</Button> :
-                            <Button onClick={() => handleSubmit()} variant={"outlined"}>Dodaj aukcje</Button>}
-                    </Stack>
-                    <Snackbar
-                        open={open}
-                        autoHideDuration={6000}
-                        onClose={handleClose}
-                    >
-                        <Alert
-                            onClose={handleClose}
-                            severity="error"
-                            sx={{width: "100%"}}
+                        <Button
+                            variant={"text"}
+                            onClick={() => history.goBack()}
                         >
-                            {alertMessage}
-                        </Alert>
-                    </Snackbar>
+                            Powrót
+                        </Button>
+                        {params.auctionId ? (
+                            <Button
+                                variant={"outlined"}
+                                onClick={() => handleSubmit()}
+                            >
+                                Edytuj aukcje
+                            </Button>
+                        ) : (
+                            <Button
+                                onClick={() => handleSubmit()}
+                                variant={"outlined"}
+                            >
+                                Dodaj aukcje
+                            </Button>
+                        )}
+                    </Stack>
+                    <SnackbarComponent
+                        alertMessage={alertMessage}
+                        errorType={"error"}
+                        handleClose={handleClose}
+                        open={open}
+                    />
                 </Box>
                 <Dialog
                     position={"absolute"}
@@ -193,7 +225,9 @@ const AuctionForm = () => {
                     aria-describedby="alert-dialog-description"
                 >
                     <DialogTitle id="alert-dialog-title">
-                        {(params.auctionId) ? "Udało się edytowac aukcje" : "Udało się dodać aukcje"}
+                        {params.auctionId
+                            ? "Udało się edytowac aukcje"
+                            : "Udało się dodać aukcje"}
                     </DialogTitle>
                     <DialogActions>
                         <Button onClick={() => history.goBack()}>Powrót</Button>

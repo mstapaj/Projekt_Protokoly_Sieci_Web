@@ -1,10 +1,17 @@
-import React, {useState} from "react";
-import {useHistory, useParams} from "react-router-dom";
+import React, { useState } from "react";
+import { useHistory, useParams } from "react-router-dom";
 import axios from "axios";
 import Box from "@mui/material/Box";
-import {Alert, Button, Dialog, DialogActions, DialogTitle, Snackbar, Stack} from "@mui/material";
+import {
+    Button,
+    Dialog,
+    DialogActions,
+    DialogTitle,
+    Stack,
+} from "@mui/material";
 import TextField from "@mui/material/TextField";
 import Notification from "../Notification";
+import SnackbarComponent from "../../SnackbarComponent";
 
 const ChangePasswordForm = () => {
     const history = useHistory();
@@ -50,11 +57,13 @@ const ChangePasswordForm = () => {
         if (info.length === 0) {
             axios
                 .put("https://localhost:5000/users/changePassword", {
-                    id: params.id, oldPassword: pass, newPassword: newPass
+                    id: params.id,
+                    oldPassword: pass,
+                    newPassword: newPass,
                 })
                 .then((res) => {
                     if (res.data === true) {
-                        handleClickOpen()
+                        handleClickOpen();
                     } else {
                         setAlertMessage("Nie udało się zmienić hasła");
                         handleClick();
@@ -66,78 +75,84 @@ const ChangePasswordForm = () => {
         }
     };
 
-    return (<div className={"login"}>
-        <div className={"form"}>
-            <h3>Zmiana hasła</h3>
-            <Box
-                component="form"
-                sx={{
-                    "& .MuiTextField-root": {m: 1, width: "25ch"}
-                }}
-                noValidate
-                autoComplete="off"
-                flexWrap={"wrap"}
-            >
-                <Stack>
-                    <TextField
-                        id="outlined"
-                        label="Stare hasło"
-                        type={'password'}
-                        onChange={(event) => setPass(event.target.value)}
-                    />
-                    <TextField
-                        id="outlined-password-input"
-                        label="Nowe hasło"
-                        type="password"
-                        onChange={(event) => setNewPass(event.target.value)}
-                    />
-                    <TextField
-                        id="outlined-password-input"
-                        label="Powtórz nowe hasło"
-                        type="password"
-                        onChange={(event) => setSecondPass(event.target.value)}
-                    />
-
-                </Stack>
-                <Stack
-                    spacing={2}
-                    direction="row"
-                    justifyContent={"center"}
+    return (
+        <div className={"login"}>
+            <div className={"form"}>
+                <h3>Zmiana hasła</h3>
+                <Box
+                    component="form"
+                    sx={{
+                        "& .MuiTextField-root": { m: 1, width: "25ch" },
+                    }}
+                    noValidate
+                    autoComplete="off"
+                    flexWrap={"wrap"}
                 >
-                    <Button variant={"text"} onClick={() => history.goBack()}>Powrót</Button>
-                    <Button variant={"contained"} onClick={() => handleChangePassword()}>Zmień hasło</Button>
-                </Stack>
-            </Box>
-            <Snackbar
-                open={open}
-                autoHideDuration={6000}
-                onClose={handleClose}
+                    <Stack>
+                        <TextField
+                            id="outlined"
+                            label="Stare hasło"
+                            type={"password"}
+                            onChange={(event) => setPass(event.target.value)}
+                        />
+                        <TextField
+                            id="outlined-password-input"
+                            label="Nowe hasło"
+                            type="password"
+                            onChange={(event) => setNewPass(event.target.value)}
+                        />
+                        <TextField
+                            id="outlined-password-input"
+                            label="Powtórz nowe hasło"
+                            type="password"
+                            onChange={(event) =>
+                                setSecondPass(event.target.value)
+                            }
+                        />
+                    </Stack>
+                    <Stack
+                        spacing={2}
+                        direction="row"
+                        justifyContent={"center"}
+                    >
+                        <Button
+                            variant={"text"}
+                            onClick={() => history.goBack()}
+                        >
+                            Powrót
+                        </Button>
+                        <Button
+                            variant={"contained"}
+                            onClick={() => handleChangePassword()}
+                        >
+                            Zmień hasło
+                        </Button>
+                    </Stack>
+                </Box>
+                <SnackbarComponent
+                    alertMessage={alertMessage}
+                    errorType={"error"}
+                    handleClose={handleClose}
+                    open={open}
+                />
+            </div>
+            <Dialog
+                position={"absolute"}
+                open={openDialog}
+                onClose={handleCloseDialog}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
             >
-                <Alert
-                    onClose={handleClose}
-                    severity="error"
-                    sx={{width: "100%"}}
-                >
-                    {alertMessage}
-                </Alert>
-            </Snackbar>
+                <DialogTitle id="alert-dialog-title">
+                    {"Pomyślnie zmieniono hasło"}
+                </DialogTitle>
+                <DialogActions>
+                    <Button onClick={() => history.goBack()}>Powrót</Button>
+                </DialogActions>
+            </Dialog>
+            <Notification />
         </div>
-        <Dialog
-            position={'absolute'}
-            open={openDialog}
-            onClose={handleCloseDialog}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
-        >
-            <DialogTitle id="alert-dialog-title">
-                {"Pomyślnie zmieniono hasło"}
-            </DialogTitle>
-            <DialogActions>
-                <Button onClick={() => history.goBack()}>Powrót</Button>
-            </DialogActions>
-        </Dialog>
-        <Notification />
-    </div>);
+    );
 };
 
 export default ChangePasswordForm;

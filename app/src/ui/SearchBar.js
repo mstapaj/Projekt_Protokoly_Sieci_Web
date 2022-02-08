@@ -1,19 +1,43 @@
 import axios from "axios";
-import {useState} from "react";
-import {Button, Stack, TextField} from "@mui/material";
+import { useState } from "react";
+import { Button, Stack, TextField } from "@mui/material";
 
-const SearchBar = ({setAuctions, cancelSearch, handleClick, setAlertMessage}) => {
+const SearchBar = ({
+    setAuctions,
+    cancelSearch,
+    handleClick,
+    setAlertMessage,
+}) => {
     const [word, setWord] = useState("");
 
     return (
-        <div className={'search-bar'}>
-            <Stack direction={'row'} spacing={'4px'} justifyContent={'center'} marginTop={'4px'}>
-                <TextField style={{maxWidth: '800px', maxHeight: '40px', minWidth: '400px', minHeight: '40px'}}
-                           id="outlined-basic" variant="outlined" placeholder={'Wyszukaj aukcję'}
-                           onChange={(event) => setWord(event.target.value)}/>
+        <div className={"search-bar"}>
+            <Stack
+                direction={"row"}
+                spacing={"4px"}
+                justifyContent={"center"}
+                marginTop={"4px"}
+            >
+                <TextField
+                    style={{
+                        maxWidth: "800px",
+                        maxHeight: "40px",
+                        minWidth: "400px",
+                        minHeight: "40px",
+                    }}
+                    id="outlined-basic"
+                    variant="outlined"
+                    placeholder={"Wyszukaj aukcję"}
+                    onChange={(event) => setWord(event.target.value)}
+                />
                 <Button
-                    style={{maxWidth: '200px', maxHeight: '40px', minWidth: '180px', minHeight: '40px'}}
-                    variant={'outlined'}
+                    style={{
+                        maxWidth: "200px",
+                        maxHeight: "40px",
+                        minWidth: "180px",
+                        minHeight: "40px",
+                    }}
+                    variant={"outlined"}
                     onClick={() => {
                         if (word === "") {
                             cancelSearch();
@@ -25,15 +49,19 @@ const SearchBar = ({setAuctions, cancelSearch, handleClick, setAlertMessage}) =>
                                 .then((res) => {
                                     if (res.status === 200) {
                                         if (res.data.length === 0) {
-                                            setAlertMessage("Nie znaleziono takich aukcji");
-                                            handleClick()
+                                            setAlertMessage(
+                                                "Nie znaleziono takich aukcji"
+                                            );
+                                            handleClick();
                                             setAuctions(res.data);
                                         } else {
                                             setAuctions(res.data);
                                         }
                                     } else {
-                                        setAlertMessage("Błąd ładowania danych");
-                                        handleClick()
+                                        setAlertMessage(
+                                            "Błąd ładowania danych"
+                                        );
+                                        handleClick();
                                     }
                                 });
                         }
@@ -41,8 +69,18 @@ const SearchBar = ({setAuctions, cancelSearch, handleClick, setAlertMessage}) =>
                 >
                     Wyszukaj aukcje
                 </Button>
-                <Button style={{maxWidth: '200px', maxHeight: '40px', minWidth: '200px', minHeight: '40px'}}
-                        variant={'outlined'} onClick={() => cancelSearch()}>Cofnij wyszukiwanie</Button>
+                <Button
+                    style={{
+                        maxWidth: "200px",
+                        maxHeight: "40px",
+                        minWidth: "200px",
+                        minHeight: "40px",
+                    }}
+                    variant={"outlined"}
+                    onClick={() => cancelSearch()}
+                >
+                    Cofnij wyszukiwanie
+                </Button>
             </Stack>
         </div>
     );

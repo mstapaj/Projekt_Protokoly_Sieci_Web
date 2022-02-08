@@ -1,6 +1,6 @@
 import "./App.css";
-import {ConfirmProvider} from "material-ui-confirm";
-import { BrowserRouter, Route, useParams } from "react-router-dom";
+import { ConfirmProvider } from "material-ui-confirm";
+import { BrowserRouter, Route } from "react-router-dom";
 import Dashboard from "./ui/Dashboard";
 import LoginPage from "./ui/LoginPage";
 import RegisterPage from "./ui/RegisterPage";
@@ -29,11 +29,11 @@ function App() {
         <div className="App">
             <ConfirmProvider>
                 <BrowserRouter>
-                    <Route exact path={"/"} component={Dashboard}/>
-                    <Route exact path={"/login"} component={LoginPage}/>
-                    <Route exact path={"/register"} component={RegisterPage}/>
-                    <Route exact path={"/logged/:id"} component={Account}/>
-                    <Route exact path={"/auctions"} component={AuctionList}/>
+                    <Route exact path={"/"} component={Dashboard} />
+                    <Route exact path={"/login"} component={LoginPage} />
+                    <Route exact path={"/register"} component={RegisterPage} />
+                    <Route exact path={"/logged/:id"} component={Account} />
+                    <Route exact path={"/auctions"} component={AuctionList} />
                     <Route
                         exact
                         path={"/auctions/:auctionId"}
@@ -135,7 +135,9 @@ function App() {
                     />
                     <Route
                         exact
-                        path={"/logged/:id/accountManagement/:userId/editAccount"}
+                        path={
+                            "/logged/:id/accountManagement/:userId/editAccount"
+                        }
                         component={EditAccount}
                     />
                     <Route

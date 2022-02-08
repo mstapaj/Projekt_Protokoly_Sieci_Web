@@ -1,5 +1,5 @@
-import {useHistory} from "react-router-dom";
-import {useEffect} from "react";
+import { useHistory } from "react-router-dom";
+import { useEffect } from "react";
 import Cookies from "js-cookie";
 import axios from "axios";
 import Navbar from "./Navbar";
@@ -28,9 +28,9 @@ const Dashboard = () => {
     }, []);
 
     return (
-        <div className={'main'}>
+        <div className={"main"}>
             <h3>Strona główna</h3>
-            <Navbar/>
+            <Navbar />
         </div>
     );
 };

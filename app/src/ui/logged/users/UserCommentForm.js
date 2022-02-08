@@ -1,9 +1,8 @@
 import axios from "axios";
-import {useHistory, useParams} from "react-router-dom";
-import React, {useEffect, useState} from "react";
+import { useHistory, useParams } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import {
-    Alert,
     Button,
     Dialog,
     DialogActions,
@@ -12,11 +11,11 @@ import {
     InputLabel,
     MenuItem,
     Select,
-    Snackbar,
-    Stack
+    Stack,
 } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import Notification from "../Notification";
+import SnackbarComponent from "../../SnackbarComponent";
 
 const UserCommentForm = () => {
     const params = useParams();
@@ -45,7 +44,10 @@ const UserCommentForm = () => {
         setOpenDialog(true);
     };
     const [init, setInit] = useState({
-        comment: "", type: true, author: params.id, user: params.userId
+        comment: "",
+        type: true,
+        author: params.id,
+        user: params.userId,
     });
 
     const handleSubmit = () => {
@@ -59,21 +61,33 @@ const UserCommentForm = () => {
             setAlertMessage("Wybierz rodzaj komentarza");
             handleClick();
         } else {
-            const preparedData = {...init, comment: comment, type: opinionType};
+            const preparedData = {
+                ...init,
+                comment: comment,
+                type: opinionType,
+            };
             if (params.userCommentId) {
                 axios
-                    .put("https://localhost:5000/userComments/editUserComment", preparedData)
+                    .put(
+                        "https://localhost:5000/userComments/editUserComment",
+                        preparedData
+                    )
                     .then((res) => {
                         if (res.status === 200) {
                             handleClickOpen();
                         } else {
-                            setAlertMessage("Nie udało się edytować komentarza");
+                            setAlertMessage(
+                                "Nie udało się edytować komentarza"
+                            );
                             handleClick();
                         }
                     });
             } else {
                 axios
-                    .post("https://localhost:5000/userComments/addUserComment", preparedData)
+                    .post(
+                        "https://localhost:5000/userComments/addUserComment",
+                        preparedData
+                    )
                     .then((res) => {
                         if (res.status === 200) {
                             handleClickOpen();
@@ -84,13 +98,14 @@ const UserCommentForm = () => {
                     });
             }
         }
-
     };
 
     useEffect(() => {
         if (params.userCommentId) {
             axios
-                .get(`https://localhost:5000/userComments/${params.userCommentId}`)
+                .get(
+                    `https://localhost:5000/userComments/${params.userCommentId}`
+                )
                 .then((res) => {
                     if (res.status === 200) {
                         setInit(res.data);
@@ -104,85 +119,113 @@ const UserCommentForm = () => {
         }
     }, []);
 
-    return (<div className={"login"}>
-        <div className={"form"}>
-            {(params.userCommentId) ? <h3>Edytuj komentarz</h3> : <h3>Dodaj komentarz</h3>}
-            <Box
-                component="form"
-                sx={{
-                    "& .MuiTextField-root": {m: 1, width: "25ch"}
-                }}
-                noValidate
-                autoComplete="off"
-                flexWrap={"wrap"}
-            >
-                <Stack>
-                    <TextField
-                        id="outlined"
-                        label="Komentarz"
-                        name={"comment"}
-                        value={comment}
-                        onChange={(event) => setComment(event.target.value)}
-                    />
-                </Stack>
-                <Stack marginLeft={"8px"}>
-                    <FormControl>
-                        <InputLabel id="demo-simple-select-label">Rodzaj komentarza</InputLabel>
-                        <Select
-                            labelId="demo-simple-select-label"
-                            id="demo-simple-select"
-                            defaultValue={(opinionType) ? opinionType : true}
-                            label="Rodzaj komentarza"
-                            onChange={(event) => setOpinionType(event.target.value)}
-                            style={{maxWidth: "225px", maxHeight: "56px", minWidth: "225px", minHeight: "56px"}}
-                        >
-                            <MenuItem value={true}>Pozytywny</MenuItem>
-                            <MenuItem value={false}>Negatywny</MenuItem>
-                        </Select>
-                    </FormControl>
-                </Stack>
-                <Stack
-                    spacing={2}
-                    direction="row"
-                    justifyContent={"center"}
-                    marginTop={"10px"}
+    return (
+        <div className={"login"}>
+            <div className={"form"}>
+                {params.userCommentId ? (
+                    <h3>Edytuj komentarz</h3>
+                ) : (
+                    <h3>Dodaj komentarz</h3>
+                )}
+                <Box
+                    component="form"
+                    sx={{
+                        "& .MuiTextField-root": { m: 1, width: "25ch" },
+                    }}
+                    noValidate
+                    autoComplete="off"
+                    flexWrap={"wrap"}
                 >
-                    <Button variant={"text"} type={"button"} onClick={() => history.goBack()}>Powrót</Button>
-                    {(params.userCommentId) ?
-                        <Button variant={"outlined"} onClick={() => handleSubmit()}>Edytuj komentarz</Button> :
-                        <Button variant={"outlined"} onClick={() => handleSubmit()}>Dodaj komentarz</Button>}
-                </Stack>
-                <Snackbar
-                    open={open}
-                    autoHideDuration={6000}
-                    onClose={handleClose}
-                >
-                    <Alert
-                        onClose={handleClose}
-                        severity="error"
-                        sx={{width: "100%"}}
+                    <Stack>
+                        <TextField
+                            id="outlined"
+                            label="Komentarz"
+                            name={"comment"}
+                            value={comment}
+                            onChange={(event) => setComment(event.target.value)}
+                        />
+                    </Stack>
+                    <Stack marginLeft={"8px"}>
+                        <FormControl>
+                            <InputLabel id="demo-simple-select-label">
+                                Rodzaj komentarza
+                            </InputLabel>
+                            <Select
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                defaultValue={opinionType ? opinionType : true}
+                                label="Rodzaj komentarza"
+                                onChange={(event) =>
+                                    setOpinionType(event.target.value)
+                                }
+                                style={{
+                                    maxWidth: "225px",
+                                    maxHeight: "56px",
+                                    minWidth: "225px",
+                                    minHeight: "56px",
+                                }}
+                            >
+                                <MenuItem value={true}>Pozytywny</MenuItem>
+                                <MenuItem value={false}>Negatywny</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </Stack>
+                    <Stack
+                        spacing={2}
+                        direction="row"
+                        justifyContent={"center"}
+                        marginTop={"10px"}
                     >
-                        {alertMessage}
-                    </Alert>
-                </Snackbar>
-            </Box>
-            <Dialog
-                position={"absolute"}
-                open={openDialog}
-                onClose={handleCloseDialog}
-                aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description"
-            >
-                <DialogTitle id="alert-dialog-title">
-                    {(params.userCommentId) ? "Udało się edytowac komentarz" : "Udało się dodać komentarz"}
-                </DialogTitle>
-                <DialogActions>
-                    <Button onClick={() => history.goBack()}>Powrót</Button>
-                </DialogActions>
-            </Dialog>
+                        <Button
+                            variant={"text"}
+                            type={"button"}
+                            onClick={() => history.goBack()}
+                        >
+                            Powrót
+                        </Button>
+                        {params.userCommentId ? (
+                            <Button
+                                variant={"outlined"}
+                                onClick={() => handleSubmit()}
+                            >
+                                Edytuj komentarz
+                            </Button>
+                        ) : (
+                            <Button
+                                variant={"outlined"}
+                                onClick={() => handleSubmit()}
+                            >
+                                Dodaj komentarz
+                            </Button>
+                        )}
+                    </Stack>
+                    <SnackbarComponent
+                        alertMessage={alertMessage}
+                        errorType={"error"}
+                        handleClose={handleClose}
+                        open={open}
+                    />
+                </Box>
+                <Dialog
+                    position={"absolute"}
+                    open={openDialog}
+                    onClose={handleCloseDialog}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                >
+                    <DialogTitle id="alert-dialog-title">
+                        {params.userCommentId
+                            ? "Udało się edytowac komentarz"
+                            : "Udało się dodać komentarz"}
+                    </DialogTitle>
+                    <DialogActions>
+                        <Button onClick={() => history.goBack()}>Powrót</Button>
+                    </DialogActions>
+                </Dialog>
+            </div>
+            <Notification />
         </div>
-        <Notification />
-    </div>);
+    );
 };
 
 export default UserCommentForm;

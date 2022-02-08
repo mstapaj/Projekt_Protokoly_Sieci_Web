@@ -8,7 +8,6 @@ import { Alert, Button, Snackbar, Stack, TextField } from "@mui/material";
 import Notification from "../Notification";
 
 const DMChat = () => {
-
     const [client, setClient] = useState(null);
     const [messages, setMessages] = useState([]);
     const [login, setLogin] = useState("");
@@ -36,17 +35,20 @@ const DMChat = () => {
     };
     useEffect(() => {
         mqttConnect("mqtt://127.0.0.1:1884", {
-            connectTimeout: 5000, path: "/mqtt"
+            connectTimeout: 5000,
+            path: "/mqtt",
         });
         setTimeout(() => {
             updateScroll();
         }, 1000);
-        axios.get(`https://localhost:5000/users/${params.chatter}`).then(res => {
-            if (res.status === 200) {
-                setChatter(res.data.login);
-            }
-        });
-        axios.get(`https://localhost:5000/users/${params.id}`).then(res => {
+        axios
+            .get(`https://localhost:5000/users/${params.chatter}`)
+            .then((res) => {
+                if (res.status === 200) {
+                    setChatter(res.data.login);
+                }
+            });
+        axios.get(`https://localhost:5000/users/${params.id}`).then((res) => {
             if (res.status === 200) {
                 setLogin(res.data.login);
             }
@@ -55,7 +57,9 @@ const DMChat = () => {
     useEffect(() => {
         if (client) {
             client.on("connect", () => {
-                const topic = `${_.sortBy([params.id, params.chatter])[0]}:${_.sortBy([params.id, params.chatter])[1]}`;
+                const topic = `${_.sortBy([params.id, params.chatter])[0]}:${
+                    _.sortBy([params.id, params.chatter])[1]
+                }`;
                 client.subscribe(topic);
                 client.subscribe(`~${topic}`);
                 client.publish(topic, "~getMessages");
@@ -67,11 +71,18 @@ const DMChat = () => {
             client.on("message", (topic, message) => {
                 const payload = { topic, message: message.toString() };
                 if (payload.topic[0] === "~") {
-                    const allMessages = payload.message.split("~").filter(n => n !== "").reduce((acc, curr) => {
-                        return [...acc, curr];
-                    }, []);
+                    const allMessages = payload.message
+                        .split("~")
+                        .filter((n) => n !== "")
+                        .reduce((acc, curr) => {
+                            return [...acc, curr];
+                        }, []);
                     setMessages(allMessages);
-                    client.unsubscribe(`~${_.sortBy([params.id, params.chatter])[0]}:${_.sortBy([params.id, params.chatter])[1]}`);
+                    client.unsubscribe(
+                        `~${_.sortBy([params.id, params.chatter])[0]}:${
+                            _.sortBy([params.id, params.chatter])[1]
+                        }`
+                    );
                 } else {
                     if (payload.message !== "~getMessages") {
                         setTemp(payload.message);
@@ -97,68 +108,100 @@ const DMChat = () => {
             handleClick();
         } else {
             const dateTime = new Date();
-            client.publish(params.chatter,`newMS${params.id}`)
-            client.publish(`${_.sortBy([params.id, params.chatter])[0]}:${_.sortBy([params.id, params.chatter])[1]}`, `${dateTime.toLocaleString()} ${login}: ${newMess}`);
+            client.publish(params.chatter, `newMS${params.id}`);
+            client.publish(
+                `${_.sortBy([params.id, params.chatter])[0]}:${
+                    _.sortBy([params.id, params.chatter])[1]
+                }`,
+                `${dateTime.toLocaleString()} ${login}: ${newMess}`
+            );
         }
     };
 
     function updateScroll() {
         const element = document.getElementById("messages");
-        if (element!==null){
+        if (element !== null) {
             element.scrollTop = element.scrollHeight;
         }
     }
 
-    return (<div className={"auction-list"}>
-        <h3 className={'clickable'} onClick={() => history.push(`/logged/${params.id}/user/${params.chatter}`)}>Rozmowa z {chatter}</h3>
-        <NavbarLogged />
-        <div className={"buttons"}>
-            <Stack direction={"row"} spacing={"4px"} justifyContent={"center"}>
-                <Button variant={"outlined"} onClick={() => {
-                    history.goBack();
-                }}>
-                    Powrót
-                </Button>
-            </Stack>
-        </div>
-        <div className={"chat"}>
-            <div className={"messages"} id={"messages"}>
-                {messages.length > 0 && messages.map(n => <div key={n}>
-                    <p>{n.slice(0, 20)}</p>
-                    <p>{n.slice(20)}</p>
-                </div>)}
-            </div>
-            <div className={"mess"}>
-                <TextField id={"outlined"} onChange={(event => setNewMess(event.target.value))}
-                           fullWidth
-                           placeholder={"Wpisz wiadomość"}
-                />
-                {(messages[messages.length - 1] !== "Pokój ten został zamknięty przez właściciela") &&
-                    <Button variant={"outlined"} onClick={() => {
-                        handleSend();
-                        setTimeout(() => {
-                            updateScroll();
-                        }, 200);
-                        document.getElementById("outlined").value = "";
-                    }}>Wyślij
-                    </Button>}
-            </div>
-            <Snackbar
-                open={open}
-                autoHideDuration={6000}
-                onClose={handleClose}
+    return (
+        <div className={"auction-list"}>
+            <h3
+                className={"clickable"}
+                onClick={() =>
+                    history.push(`/logged/${params.id}/user/${params.chatter}`)
+                }
             >
-                <Alert
-                    onClose={handleClose}
-                    severity="warning"
-                    sx={{ width: "100%" }}
+                Rozmowa z {chatter}
+            </h3>
+            <NavbarLogged />
+            <div className={"buttons"}>
+                <Stack
+                    direction={"row"}
+                    spacing={"4px"}
+                    justifyContent={"center"}
                 >
-                    {alertMessage}
-                </Alert>
-            </Snackbar>
+                    <Button
+                        variant={"outlined"}
+                        onClick={() => {
+                            history.goBack();
+                        }}
+                    >
+                        Powrót
+                    </Button>
+                </Stack>
+            </div>
+            <div className={"chat"}>
+                <div className={"messages"} id={"messages"}>
+                    {messages.length > 0 &&
+                        messages.map((n) => (
+                            <div key={n}>
+                                <p>{n.slice(0, 20)}</p>
+                                <p>{n.slice(20)}</p>
+                            </div>
+                        ))}
+                </div>
+                <div className={"mess"}>
+                    <TextField
+                        id={"outlined"}
+                        onChange={(event) => setNewMess(event.target.value)}
+                        fullWidth
+                        placeholder={"Wpisz wiadomość"}
+                    />
+                    {messages[messages.length - 1] !==
+                        "Pokój ten został zamknięty przez właściciela" && (
+                        <Button
+                            variant={"outlined"}
+                            onClick={() => {
+                                handleSend();
+                                setTimeout(() => {
+                                    updateScroll();
+                                }, 200);
+                                document.getElementById("outlined").value = "";
+                            }}
+                        >
+                            Wyślij
+                        </Button>
+                    )}
+                </div>
+                <Snackbar
+                    open={open}
+                    autoHideDuration={6000}
+                    onClose={handleClose}
+                >
+                    <Alert
+                        onClose={handleClose}
+                        severity="warning"
+                        sx={{ width: "100%" }}
+                    >
+                        {alertMessage}
+                    </Alert>
+                </Snackbar>
+            </div>
+            <Notification />
         </div>
-        <Notification />
-    </div>);
+    );
 };
 
 export default DMChat;

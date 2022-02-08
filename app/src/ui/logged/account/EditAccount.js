@@ -1,8 +1,7 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Box from "@mui/material/Box";
 import {
-    Alert,
     Button,
     Dialog,
     DialogActions,
@@ -12,20 +11,19 @@ import {
     InputAdornment,
     InputLabel,
     OutlinedInput,
-    Snackbar,
-    Stack
+    Stack,
 } from "@mui/material";
 import TextField from "@mui/material/TextField";
-import {useHistory, useParams} from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import Visibility from "@mui/icons-material/Visibility";
 import Notification from "../Notification";
+import SnackbarComponent from "../../SnackbarComponent";
 
 const EditAccount = () => {
-
     const params = useParams();
     const history = useHistory();
-    const [firstLogin, setFirstLogin] = useState('')
+    const [firstLogin, setFirstLogin] = useState("");
     const [login, setLogin] = useState("");
     const [pass, setPass] = useState("");
     const [alertMessage, setAlertMessage] = useState("");
@@ -51,7 +49,11 @@ const EditAccount = () => {
     };
 
     const [values, setValues] = useState({
-        amount: "", password: "", weight: "", weightRange: "", showPassword: false
+        amount: "",
+        password: "",
+        weight: "",
+        weightRange: "",
+        showPassword: false,
     });
     const handleRegister = () => {
         let info = [];
@@ -72,14 +74,20 @@ const EditAccount = () => {
                     handleClick();
                 } else {
                     axios
-                        .put(`https://localhost:5000/users/editAccount/${params.userId}`, {
-                            login: login, password: pass
-                        })
+                        .put(
+                            `https://localhost:5000/users/editAccount/${params.userId}`,
+                            {
+                                login: login,
+                                password: pass,
+                            }
+                        )
                         .then((res) => {
                             if (res.data === true) {
                                 handleClickOpen();
                             } else {
-                                setAlertMessage("Nie udało się edytować użytkownika");
+                                setAlertMessage(
+                                    "Nie udało się edytować użytkownika"
+                                );
                                 handleClick();
                             }
                         });
@@ -92,18 +100,18 @@ const EditAccount = () => {
     };
 
     const handleChange = (prop) => (event) => {
-        setValues({...values, [prop]: event.target.value});
+        setValues({ ...values, [prop]: event.target.value });
     };
     const handleClickShowPassword = () => {
         setValues({
-            ...values, showPassword: !values.showPassword
+            ...values,
+            showPassword: !values.showPassword,
         });
     };
 
     const handleMouseDownPassword = (event) => {
         event.preventDefault();
     };
-
 
     useEffect(() => {
         axios
@@ -112,7 +120,7 @@ const EditAccount = () => {
                 if (res.status === 200) {
                     setLogin(res.data.login);
                     setPass(res.data.password);
-                    setFirstLogin(res.data.login)
+                    setFirstLogin(res.data.login);
                 } else {
                     setAlertMessage("Błąd ładowania danych");
                     handleClick();
@@ -120,93 +128,104 @@ const EditAccount = () => {
             });
     }, []);
 
-    return (<div className={"login"}>
-        <div className={"form"}>
-            <h3>Edycja użytkownika {firstLogin}</h3>
-            <Box
-                component="form"
-                sx={{
-                    "& .MuiTextField-root": {m: 1, width: "25ch"}
-                }}
-                noValidate
-                autoComplete="off"
-                flexWrap={"wrap"}
-            >
-                <Stack>
-                    <TextField
-                        id="outlined"
-                        label="Login"
-                        value={login}
-                        onChange={(event) => setLogin(event.target.value)}
-                    />
-                    <FormControl
-                        sx={{m: 1, width: "25ch"}}
-                        variant="outlined"
-                        onChange={(event) => setPass(event.target.value)}
-                    >
-                        <InputLabel htmlFor="outlined-adornment-password">
-                            Hasło
-                        </InputLabel>
-                        <OutlinedInput
-                            id="outlined-adornment-password"
-                            type={values.showPassword ? "text" : "password"}
-                            value={pass}
-                            onChange={handleChange("password")}
-                            endAdornment={<InputAdornment position="end">
-                                <IconButton
-                                    aria-label="Zmień widoczność hasła"
-                                    onClick={handleClickShowPassword}
-                                    onMouseDown={handleMouseDownPassword}
-                                    edge="end"
-                                >
-                                    {values.showPassword ? (<VisibilityOff/>) : (<Visibility/>)}
-                                </IconButton>
-                            </InputAdornment>}
-                            label="Password"
+    return (
+        <div className={"login"}>
+            <div className={"form"}>
+                <h3>Edycja użytkownika {firstLogin}</h3>
+                <Box
+                    component="form"
+                    sx={{
+                        "& .MuiTextField-root": { m: 1, width: "25ch" },
+                    }}
+                    noValidate
+                    autoComplete="off"
+                    flexWrap={"wrap"}
+                >
+                    <Stack>
+                        <TextField
+                            id="outlined"
+                            label="Login"
+                            value={login}
+                            onChange={(event) => setLogin(event.target.value)}
                         />
-                    </FormControl>
-
-                </Stack>
-                <Stack
-                    spacing={2}
-                    direction="row"
-                    justifyContent={"center"}
-                >
-                    <Button variant={"text"} onClick={() => history.goBack()}>Powrót</Button>
-                    <Button variant={"contained"} onClick={() => handleRegister()}>Zatwierdź zmiany</Button>
-                </Stack>
-            </Box>
-            <Snackbar
-                open={open}
-                autoHideDuration={6000}
-                onClose={handleClose}
+                        <FormControl
+                            sx={{ m: 1, width: "25ch" }}
+                            variant="outlined"
+                            onChange={(event) => setPass(event.target.value)}
+                        >
+                            <InputLabel htmlFor="outlined-adornment-password">
+                                Hasło
+                            </InputLabel>
+                            <OutlinedInput
+                                id="outlined-adornment-password"
+                                type={values.showPassword ? "text" : "password"}
+                                value={pass}
+                                onChange={handleChange("password")}
+                                endAdornment={
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                            aria-label="Zmień widoczność hasła"
+                                            onClick={handleClickShowPassword}
+                                            onMouseDown={
+                                                handleMouseDownPassword
+                                            }
+                                            edge="end"
+                                        >
+                                            {values.showPassword ? (
+                                                <VisibilityOff />
+                                            ) : (
+                                                <Visibility />
+                                            )}
+                                        </IconButton>
+                                    </InputAdornment>
+                                }
+                                label="Password"
+                            />
+                        </FormControl>
+                    </Stack>
+                    <Stack
+                        spacing={2}
+                        direction="row"
+                        justifyContent={"center"}
+                    >
+                        <Button
+                            variant={"text"}
+                            onClick={() => history.goBack()}
+                        >
+                            Powrót
+                        </Button>
+                        <Button
+                            variant={"contained"}
+                            onClick={() => handleRegister()}
+                        >
+                            Zatwierdź zmiany
+                        </Button>
+                    </Stack>
+                </Box>
+                <SnackbarComponent
+                    alertMessage={alertMessage}
+                    errorType={"error"}
+                    handleClose={handleClose}
+                    open={open}
+                />
+            </div>
+            <Dialog
+                position={"absolute"}
+                open={openDialog}
+                onClose={handleCloseDialog}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
             >
-                <Alert
-                    onClose={handleClose}
-                    severity="error"
-                    sx={{width: "100%"}}
-                >
-                    {alertMessage}
-                </Alert>
-            </Snackbar>
+                <DialogTitle id="alert-dialog-title">
+                    {"Użytkownik został pomyślnie edytowany"}
+                </DialogTitle>
+                <DialogActions>
+                    <Button onClick={() => history.goBack()}>Powrót</Button>
+                </DialogActions>
+            </Dialog>
+            <Notification />
         </div>
-        <Dialog
-            position={"absolute"}
-            open={openDialog}
-            onClose={handleCloseDialog}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
-        >
-            <DialogTitle id="alert-dialog-title">
-                {"Użytkownik został pomyślnie edytowany"}
-            </DialogTitle>
-            <DialogActions>
-                <Button onClick={() => history.goBack()}>Powrót</Button>
-            </DialogActions>
-        </Dialog>
-        <Notification />
-    </div>);
+    );
 };
-
 
 export default EditAccount;

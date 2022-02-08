@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
-import {useHistory, useParams} from "react-router-dom";
+import { useParams } from "react-router-dom";
 import NavbarLogged from "../NavbarLogged";
 import Notification from "../Notification";
 
@@ -15,9 +15,9 @@ const Account = () => {
     }, []);
 
     return (
-        <div className={'main'}>
+        <div className={"main"}>
             <h3>Witaj {data.login}</h3>
-            <NavbarLogged/>
+            <NavbarLogged />
             <Notification />
         </div>
     );
