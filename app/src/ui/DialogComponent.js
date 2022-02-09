@@ -37,7 +37,11 @@ const DialogComponent = ({
             )}
             <DialogActions>
                 <Button onClick={firstButtonAction}>{firstButtonDesc}</Button>
-                <Button onClick={secondButtonAction}>{secondButtonDesc}</Button>
+                {secondButtonAction && secondButtonDesc && (
+                    <Button onClick={secondButtonAction}>
+                        {secondButtonDesc}
+                    </Button>
+                )}
             </DialogActions>
         </Dialog>
     );
