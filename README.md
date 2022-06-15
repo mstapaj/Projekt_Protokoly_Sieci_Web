@@ -40,8 +40,6 @@ Project completed on 1 February 2022
 -   react-dom
 -   react-router-dom
 -   react-scripts
--   url
--   web-vitals
 -   yup
 
 ## Installation and Setup Instructions
